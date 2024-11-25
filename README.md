@@ -7,7 +7,7 @@
 
 # tern
 
-**`tern`** is a lightweight and versatile Go package designed to simplify conditional logic using concise ternary expressions. With `tern`, you can write clear and expressive code that is easy to read and maintain.
+**`tern`** is a lightweight and versatile Go package designed to streamline conditional logic with concise ternary expressions, helping you write clean, expressive, and maintainable code with ease.
 
 ## README
 
@@ -15,10 +15,10 @@
 
 ## Features
 
-- **Generic Support**: Fully utilizes Go’s generics, making it type-safe and reusable across a wide range of data types.
-- **Flexible Logic**: Supports both direct boolean conditions and conditional functions.
-- **Deferred Execution**: Allows lazy evaluation using functions to compute values only when needed, improving performance in certain cases.
-- **Zero Value Handling**: Provides utilities to return zero values when no fallback is provided.
+- **Generic Support**: Fully leverages Go’s generics for type safety and flexibility across various data types.
+- **Flexible Logic**: Provides robust support for both boolean conditions and conditional functions.
+- **Lazy Evaluation**: Optimizes performance by computing values only when necessary through deferred execution.
+- **Zero Value Handling**: Offers utilities to return default zero values for any type when no fallback is supplied.
 
 ## Installation
 
@@ -28,7 +28,7 @@ go get github.com/yyle88/tern
 
 ## Usage
 
-The `tern` package offers various helper functions for different conditional scenarios:
+The `tern` package provides multiple helper functions tailored to handle various conditional scenarios.
 
 ### Basic Usage
 
@@ -41,25 +41,25 @@ import (
 )
 
 func main() {
-	// Simple conditional expression
-	result := tern.BVV(true, "A", "B")
-	fmt.Println(result) // Output: A
+	// Basic conditional selection
+	result := tern.BVV(true, "Option A", "Option B")
+	fmt.Println(result) // Output: Option A
 
-	// Deferred execution for the second value
-	result = tern.BVF(false, "A", func() string { return "Computed B" })
-	fmt.Println(result) // Output: Computed B
+	// Deferred execution for fallback value
+	result = tern.BVF(false, "Default", func() string { return "Computed Fallback" })
+	fmt.Println(result) // Output: Computed Fallback
 
-	// Using zero values as fallback
-	result = tern.BV(false, "A")
+	// Handling zero values as fallback
+	result = tern.BV(false, "Fallback")
 	fmt.Println(result) // Output: (empty string)
 }
 ```
 
-### Available Functions
+### Function Overview
 
-The `tern` package provides the following functions based on condition types and value evaluation methods:
+Here is an overview of the functions provided by the `tern` package:
 
-| **Function** | **Condition Type** | **First Value**          | **Second Value**         |
+| **Function** | **Condition Type** | **Primary Value**        | **Fallback Value**       |
 |--------------|--------------------|--------------------------|--------------------------|
 | `BVV`        | `bool`             | Direct value             | Direct value             |
 | `BVF`        | `bool`             | Direct value             | Function returning value |
@@ -72,21 +72,21 @@ The `tern` package provides the following functions based on condition types and
 
 ### Lazy Evaluation Example
 
-Using deferred execution ensures unnecessary computations are avoided:
+Deferred execution ensures unnecessary computations are avoided, making your code more efficient:
 
 ```go
-func computeHeavyValue() string {
-	fmt.Println("Heavy computation...")
+func expensiveComputation() string {
+	fmt.Println("Computing...")
 	return "Heavy Result"
 }
 
-result := tern.BVF(false, "Default", computeHeavyValue)
-// Output: Default (computeHeavyValue() is not executed)
+result := tern.BVF(false, "Default", expensiveComputation)
+// Output: Default (expensiveComputation is not executed)
 ```
 
-### Custom Zero Values
+### Working with Zero Values
 
-The package uses Go’s `Zero[T]()`, which automatically provides the zero value for any type:
+The package provides `Zero[T]()`, a utility that returns the zero value for any generic type:
 
 ```go
 package main
@@ -102,200 +102,97 @@ func main() {
 }
 ```
 
-以下是对 `BV`、`BF`、`FV` 和 `FF` 函数的详细表格说明：
+---
+
+### Handling Zero-Value Fallbacks
+
+The package includes functions that automatically handle zero values when the condition is not met:
+
+| **Function** | **Condition Type** | **Primary Value**        | **Fallback Value**       |
+|--------------|--------------------|--------------------------|--------------------------|
+| `BV`         | `bool`             | Direct value             | Zero value of type `T`   |
+| `BF`         | `bool`             | Function returning value | Zero value of type `T`   |
+| `FV`         | `func() bool`      | Direct value             | Zero value of type `T`   |
+| `FF`         | `func() bool`      | Function returning value | Zero value of type `T`   |
 
 ---
 
-### Utility Functions for Zero-Value Fallbacks
+### Additional Utilities in the `zerotern` Package
 
-| **Function** | **Condition Type** | **Primary Value**        | **Fallback Value**     | **Description**                                                                                                                      |
-|--------------|--------------------|--------------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `BV`         | `bool`             | Direct value             | Zero value of type `T` | Returns the first value if the condition is true, otherwise returns the zero value of type `T`.                                      |
-| `BF`         | `bool`             | Function returning value | Zero value of type `T` | Evaluates the function only if the condition is true, otherwise returns the zero value of type `T`.                                  |
-| `FV`         | `func() bool`      | Direct value             | Zero value of type `T` | Evaluates the condition function and returns the first value if true, otherwise returns the zero value of type `T`.                  |
-| `FF`         | `func() bool`      | Function returning value | Zero value of type `T` | Evaluates the condition function and returns the result of the first function if true, otherwise returns the zero value of type `T`. |
+The `zerotern` subpackage extends `tern` with specialized utilities for comparing values to their zero value, adding more control for fallback scenarios.
 
----
+| **Function** | **Comparison Type** | **Primary Value**        | **Fallback Value**       |
+|--------------|---------------------|--------------------------|--------------------------|
+| `VV`         | Direct comparison   | Direct value             | Direct value             |
+| `VF`         | Direct comparison   | Direct value             | Function returning value |
 
-### Examples
-
-#### Using `BV`
-
-```go
-result := tern.BV(false, "value")
-// Output: (empty string, as the condition is false)
-```
-
-#### Using `BF`
-
-```go
-result := tern.BF(false, func() string { return "value" })
-// Output: (empty string, as the condition is false)
-```
-
-#### Using `FV`
-
-```go
-condition := func() bool { return true }
-result := tern.FV(condition, "value")
-// Output: "value" (as the condition function returns true)
-```
-
-#### Using `FF`
-
-```go
-condition := func() bool { return false }
-result := tern.FF(condition, func() string { return "value" })
-// Output: (empty string, as the condition function returns false)
-```
-
----
-
-### Additional Utility Functions in `terngo` Package
-
-The `terngo` subpackage extends the functionality of `tern` with additional utility functions, specifically designed for comparing values to their zero value. These functions allow for more expressive handling of default values when one of the inputs might be zero.
-
-| **Function** | **Comparison Type** | **Primary Value** | **Fallback Value**       | **Description**                                                                                                                       |
-|--------------|---------------------|-------------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| `VV`         | Direct comparison   | Direct value      | Direct value             | Returns the first value if it is not the zero value of type `T`, otherwise returns the second value.                                  |
-| `VF`         | Direct comparison   | Direct value      | Function returning value | Returns the first value if it is not the zero value of type `T`, otherwise evaluates and returns the result of the fallback function. |
-
----
-
-### Examples
-
-#### Using `VV`
+#### Example: Using `VV` and `VF`
 
 ```go
 package main
 
 import (
 	"fmt"
-	"github.com/yyle88/tern/terngo"
+	"github.com/yyle88/tern/zerotern"
 )
 
 func main() {
-	result := terngo.VV("non-zero", "fallback")
-	fmt.Println(result) // Output: "non-zero"
+	// Direct comparison
+	result := zerotern.VV("non-zero", "fallback")
+	fmt.Println(result) // Output: non-zero
 
-	result = terngo.VV("", "fallback")
-	fmt.Println(result) // Output: "fallback"
-}
-```
-
-#### Using `VF`
-
-```go
-package main
-
-import (
-	"fmt"
-	"github.com/yyle88/tern/terngo"
-)
-
-func main() {
-	fallbackFunc := func() string { return "fallback from func" }
-
-	result := terngo.VF("non-zero", fallbackFunc)
-	fmt.Println(result) // Output: "non-zero"
-
-	result = terngo.VF("", fallbackFunc)
-	fmt.Println(result) // Output: "fallback from func"
+	// Fallback with function
+	result = zerotern.VF("", func() string { return "fallback func" })
+	fmt.Println(result) // Output: fallback func
 }
 ```
 
 ---
 
-### Key Benefits of `VV` and `VF`
+### Pointer-Based Utility Functions in `zerotern`
 
-- **Zero-Value Handling**: These functions leverage `tern.Zero[T]()` to check if the primary value is a zero value.
-- **Fallback Options**: `VF` provides flexibility by allowing dynamic evaluation of the fallback value through a function.
+| **Function** | **Pointer Handling**    | **Fallback Value**       |
+|--------------|-------------------------|--------------------------|
+| `PV`         | Pointer to direct value | Direct value             |
+| `PF`         | Pointer to direct value | Function returning value |
 
----
-
-By including these functions in the `terngo` package, developers gain even more expressive tools to simplify conditional logic in Go.
-
-### Additional Utility Functions for Pointer Modification in `terngo`
-
-The `terngo` subpackage introduces `PV` and `PF`, two specialized functions for safely modifying a pointer's value when it holds the zero value of its type. These functions ensure safer and more expressive manipulation of pointers while providing fallback options.
-
-| **Function** | **Pointer Check**       | **Fallback Value**       | **Description**                                                                                                                       |
-|--------------|-------------------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| `PV`         | Pointer to direct value | Direct value             | Sets the pointed-to value to the fallback value if it is the zero value of type `T`. Panics if the pointer is `nil`.                  |
-| `PF`         | Pointer to direct value | Function returning value | Sets the pointed-to value to the result of the fallback function if it is the zero value of type `T`. Panics if the pointer is `nil`. |
-
----
-
-### Examples
-
-#### Using `PV`
+#### Example: Using `PV` and `PF`
 
 ```go
 package main
 
 import (
 	"fmt"
-	"github.com/yyle88/tern/terngo"
+	"github.com/yyle88/tern/zerotern"
 )
 
 func main() {
 	var value int
-	terngo.PV(&value, 42)
+	zerotern.PV(&value, 42)
 	fmt.Println(value) // Output: 42
 
 	value = 7
-	terngo.PV(&value, 99)
-	fmt.Println(value) // Output: 7
-}
-```
-
-#### Using `PF`
-
-```go
-package main
-
-import (
-	"fmt"
-	"github.com/yyle88/tern/terngo"
-)
-
-func main() {
-	var value int
-	fallbackFunc := func() int { return 42 }
-
-	terngo.PF(&value, fallbackFunc)
-	fmt.Println(value) // Output: 42
-
-	value = 7
-	terngo.PF(&value, fallbackFunc)
+	zerotern.PF(&value, func() int { return 99 })
 	fmt.Println(value) // Output: 7
 }
 ```
 
 ---
 
-### Key Features of `PV` and `PF`
+### Why Choose `tern`?
 
-- **Pointer Safety**: These functions panic if the provided pointer is `nil`, ensuring reliable execution.
-- **Zero-Value Check**: Use `tern.Zero[T]()` to determine whether the current value is the zero value of its type.
-- **Dynamic Fallback**: `PF` allows for fallback values to be generated dynamically via a function.
-
-By leveraging `PV` and `PF`, developers can seamlessly handle zero-value assignments for pointer-based logic, maintaining both clarity and robustness in their Go code.
-
-## Why Use `tern`?
-
-1. **Readability**: Simplifies conditional logic, making the code easier to follow.
-2. **Flexibility**: Works seamlessly with both direct values and deferred computation.
-3. **Performance**: Avoids unnecessary computation by using lazy evaluation.
-4. **Generics**: Leverages Go’s generics for maximum flexibility and type safety.
+1. **Improved Readability**: Simplifies conditional logic with concise and clear expressions.
+2. **Performance Optimization**: Lazy evaluation avoids unnecessary computations.
+3. **Type Safety**: Leverages Go’s generics for maximum flexibility and reliability.
+4. **Versatility**: Supports a wide range of scenarios, including pointer handling and zero-value fallbacks.
 
 ## Contributing
 
-Contributions are welcome! If you’d like to improve the package or fix a bug, feel free to open an issue or submit a pull request on [GitHub](https://github.com/yyle88/tern).
+Contributions are welcome! Feel free to report issues, suggest improvements, or submit pull requests on [GitHub](https://github.com/yyle88/tern).
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 

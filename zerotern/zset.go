@@ -1,4 +1,4 @@
-package terngo
+package zerotern
 
 import "github.com/yyle88/tern"
 
