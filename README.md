@@ -153,10 +153,10 @@ func main() {
 
 | **Function** | **Pointer Handling**    | **Fallback Value**       |
 |--------------|-------------------------|--------------------------|
-| `PV`         | Pointer to direct value | Direct value             |
-| `PF`         | Pointer to direct value | Function returning value |
+| `SetPV`      | Pointer to direct value | Direct value             |
+| `SetPF`      | Pointer to direct value | Function returning value |
 
-#### Example: Using `PV` and `PF`
+#### Example: Using `SetPV` and `SetPF`
 
 ```go
 package main
@@ -168,11 +168,11 @@ import (
 
 func main() {
 	var value int
-	zerotern.PV(&value, 42)
+	zerotern.SetPV(&value, 42)
 	fmt.Println(value) // Output: 42
 
 	value = 7
-	zerotern.PF(&value, func() int { return 99 })
+	zerotern.SetPF(&value, func() int { return 99 })
 	fmt.Println(value) // Output: 7
 }
 ```
