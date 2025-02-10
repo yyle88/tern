@@ -204,9 +204,9 @@ Thank you for using `tern`!
 
 ---
 
-## See stars
+## Starring
 
-[![see stars](https://starchart.cc/yyle88/tern.svg?variant=adaptive)](https://starchart.cc/yyle88/tern)
+[![starring](https://starchart.cc/yyle88/tern.svg?variant=adaptive)](https://starchart.cc/yyle88/tern)
 
 Give me stars! Thank you!!!
 
