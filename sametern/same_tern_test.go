@@ -20,3 +20,25 @@ func TestVCF(t *testing.T) {
 		return "new"
 	}))
 }
+
+func TestVFV(t *testing.T) {
+	require.Equal(t, "new", sametern.VFV("old", func() string {
+		return "old"
+	}, "new"))
+	require.Equal(t, "old", sametern.VFV("old", func() string {
+		return "xxx"
+	}, "new"))
+}
+
+func TestVFF(t *testing.T) {
+	require.Equal(t, "new", sametern.VFF("old", func() string {
+		return "old"
+	}, func() string {
+		return "new"
+	}))
+	require.Equal(t, "old", sametern.VFF("old", func() string {
+		return "xxx"
+	}, func() string {
+		return "new"
+	}))
+}

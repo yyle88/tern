@@ -1,5 +1,7 @@
 package tern
 
+import "github.com/yyle88/tern/internal/utils"
+
 func BVV[T any](condition bool, a, b T) T {
 	if condition {
 		return a
@@ -60,26 +62,26 @@ func BV[T any](condition bool, a T) T {
 	if condition {
 		return a
 	}
-	return Zero[T]()
+	return utils.Zero[T]()
 }
 
 func BF[T any](condition bool, a func() T) T {
 	if condition {
 		return a()
 	}
-	return Zero[T]()
+	return utils.Zero[T]()
 }
 
 func FV[T any](condition func() bool, a T) T {
 	if condition() {
 		return a
 	}
-	return Zero[T]()
+	return utils.Zero[T]()
 }
 
 func FF[T any](condition func() bool, a func() T) T {
 	if condition() {
 		return a()
 	}
-	return Zero[T]()
+	return utils.Zero[T]()
 }

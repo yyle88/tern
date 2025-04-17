@@ -204,7 +204,7 @@ Thank you for using `tern`!
 
 ---
 
-## Starring
+## GitHub Stars
 
 [![starring](https://starchart.cc/yyle88/tern.svg?variant=adaptive)](https://starchart.cc/yyle88/tern)
 
