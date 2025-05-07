@@ -1,3 +1,15 @@
+<p align="center">
+  <img 
+    alt="golang-tern-expression logo" 
+    src="assets/golang-tern-logo.jpeg" 
+    style="max-height: 500px; width: auto; max-width: 100%;" 
+  />
+</p>
+<h3 align="center">golang-tern-expression</h3>
+<p align="center">simple tern expression <code>condition ? expression 1 : expression 2</code> in golang</p>
+
+---
+
 [![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/yyle88/tern/release.yml?branch=main&label=BUILD)](https://github.com/yyle88/tern/actions/workflows/release.yml?query=branch%3Amain)
 [![GoDoc](https://pkg.go.dev/badge/github.com/yyle88/tern)](https://pkg.go.dev/github.com/yyle88/tern)
 [![Coverage Status](https://img.shields.io/coveralls/github/yyle88/tern/master.svg)](https://coveralls.io/github/yyle88/tern?branch=main)
@@ -192,7 +204,7 @@ Contributions are welcome! Feel free to report issues, suggest improvements, or 
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+MIT License. See [LICENSE](LICENSE).
 
 ---
 
